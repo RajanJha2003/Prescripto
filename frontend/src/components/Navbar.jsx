@@ -22,7 +22,9 @@ const Navbar = () => {
     return (
         <nav className="relative">
             <div className="flex items-center justify-between text-sm py-4 mb-5 border-b border-b-gray-400 px-4">
-                <img className="w-32 md:w-44 cursor-pointer" src={assets.logo} alt="Logo" />
+                <img onClick={()=>{
+                    navigate("/");scrollTo(0,0)
+                }} className="w-32 md:w-44 cursor-pointer" src={assets.logo} alt="Logo" />
 
                 {/* Desktop Menu */}
                 <ul className="hidden md:flex items-start gap-5 font-medium">

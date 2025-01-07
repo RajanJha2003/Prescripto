@@ -59,7 +59,10 @@ const TopDoctors = () => {
             <DoctorCard
               key={doctor._id || index}
               doctor={doctor}
-              onClick={() => navigate(`/appointment/${doctor._id}`)}
+              onClick={() => {
+                navigate(`/appointment/${doctor._id}`);
+                scrollTo(0,0)
+              }}
             />
           ))}
         </div>

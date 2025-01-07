@@ -72,7 +72,10 @@ const RelatedDoctors = ({ speciality, docId }) => {
             <DoctorCard
               key={doctor._id}
               doctor={doctor}
-              onClick={() => navigate(`/appointment/${doctor._id}`)}
+              onClick={() => {
+                navigate(`/appointment/${doctor._id}`);
+                scrollTo(0,0)
+              }}
             />
           ))}
         </div>

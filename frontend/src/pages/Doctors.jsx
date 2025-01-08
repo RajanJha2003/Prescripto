@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useContext } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AppContext } from '../context/AppContext';
+import { ChevronDown } from 'lucide-react';
 
 const SpecialtyButton = ({ name, isSelected, onClick }) => (
   <button
     onClick={onClick}
-    className={`w-full sm:w-64 px-4 py-2.5 text-left border rounded-lg transition-all duration-300 hover:bg-indigo-50
+    className={`w-full px-4 py-2.5 text-left border rounded-lg transition-all duration-300 hover:bg-indigo-50
       ${isSelected 
         ? "border-indigo-200 bg-indigo-100 text-indigo-900 font-medium" 
         : "border-gray-200 text-gray-700 hover:border-indigo-200"
@@ -22,9 +23,9 @@ const DoctorCard = ({ doctor, onClick }) => (
     className="group flex flex-col bg-white border border-gray-200 rounded-xl overflow-hidden cursor-pointer 
       transition-all duration-300 hover:shadow-lg hover:border-blue-200 hover:translate-y-[-4px]"
   >
-    <div className="aspect-w-4 aspect-h-3 overflow-hidden">
+    <div className="relative pt-[75%]">
       <img 
-        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" 
+        className="absolute top-0 left-0 w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300" 
         src={doctor.image} 
         alt={doctor.name} 
       />
@@ -45,6 +46,7 @@ const Doctors = () => {
   const navigate = useNavigate();
   const { doctors } = useContext(AppContext);
   const [filterDoc, setFilterDoc] = useState([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const specialties = [
     "General Physician",
@@ -78,43 +80,62 @@ const Doctors = () => {
     } else {
       navigate(`/doctors/${specialty}`);
     }
+    setIsFilterOpen(false); // Close mobile filter after selection
   };
 
   return (
-    <div className="container mx-auto px-4 py-6 max-w-7xl">
-      <h1 className="text-2xl font-semibold text-gray-900 mb-2">Find Doctors</h1>
-      <p className="text-gray-600 mb-8">Browse through specialist doctors for your needs.</p>
-
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Specialties Sidebar */}
-        <div className="w-full lg:w-64 flex flex-col gap-3">
-          {specialties.map((specialty) => (
-            <SpecialtyButton
-              key={specialty}
-              name={specialty}
-              isSelected={speciality === specialty}
-              onClick={() => handleSpecialtyClick(specialty)}
-            />
-          ))}
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
+        {/* Header Section */}
+        <div className="mb-6">
+          <h1 className="text-2xl md:text-3xl font-semibold text-gray-900 mb-2">Find Doctors</h1>
+          <p className="text-gray-600">Browse through specialist doctors for your needs.</p>
         </div>
 
-        {/* Doctors Grid */}
-        <div className="flex-1">
-          {filterDoc.length > 0 ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filterDoc.map((doctor, index) => (
-                <DoctorCard
-                  key={doctor._id || index}
-                  doctor={doctor}
-                  onClick={() => navigate(`/appointment/${doctor._id}`)}
+        {/* Mobile Filter Button */}
+        <button
+          className="lg:hidden w-full mb-4 px-4 py-3 bg-white border border-gray-200 rounded-lg flex items-center justify-between"
+          onClick={() => setIsFilterOpen(!isFilterOpen)}
+        >
+          <span className="font-medium text-gray-700">
+            {speciality || "Select Specialty"}
+          </span>
+          <ChevronDown className={`w-5 h-5 text-gray-500 transition-transform ${isFilterOpen ? 'rotate-180' : ''}`} />
+        </button>
+
+        <div className="flex flex-col lg:flex-row gap-6">
+          {/* Specialties Sidebar - Mobile Dropdown */}
+          <div className={`lg:w-64 space-y-3 ${isFilterOpen ? 'block' : 'hidden'} lg:block`}>
+            <div className="sticky top-4 space-y-3">
+              {specialties.map((specialty) => (
+                <SpecialtyButton
+                  key={specialty}
+                  name={specialty}
+                  isSelected={speciality === specialty}
+                  onClick={() => handleSpecialtyClick(specialty)}
                 />
               ))}
             </div>
-          ) : (
-            <div className="flex items-center justify-center h-64 bg-gray-50 rounded-lg">
-              <p className="text-gray-500 text-lg">No doctors found in this specialty.</p>
-            </div>
-          )}
+          </div>
+
+          {/* Doctors Grid */}
+          <div className="flex-1">
+            {filterDoc.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                {filterDoc.map((doctor, index) => (
+                  <DoctorCard
+                    key={doctor._id || index}
+                    doctor={doctor}
+                    onClick={() => navigate(`/appointment/${doctor._id}`)}
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-64 bg-white rounded-lg border border-gray-200">
+                <p className="text-gray-500 text-lg">No doctors found in this specialty.</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>

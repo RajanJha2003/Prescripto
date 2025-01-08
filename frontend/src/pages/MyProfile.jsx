@@ -49,7 +49,7 @@ const MyProfile = () => {
     </div>
   );
 
-  const InfoField = ({ icon: Icon, label, value, name, type = "text" }) => (
+  const InfoField = ({ icon: Icon, label, value, name, type = "text", isGender = false }) => (
     <div className="flex items-center gap-4 p-4 rounded-lg bg-gray-50">
       <div className="flex-shrink-0">
         <Icon className="w-5 h-5 text-blue-600" />
@@ -57,22 +57,35 @@ const MyProfile = () => {
       <div className="flex-grow">
         <p className="text-sm text-gray-500">{label}</p>
         {isEditing ? (
-          <input
-            type={type}
-            value={value}
-            onChange={(e) => {
-              if (name.includes('.')) {
-                const [parent, child] = name.split('.');
-                setEditedData({
-                  ...editedData,
-                  [parent]: { ...editedData[parent], [child]: e.target.value }
-                });
-              } else {
-                setEditedData({ ...editedData, [name]: e.target.value });
-              }
-            }}
-            className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-          />
+          isGender ? (
+            <select
+              value={value}
+              onChange={(e) => setEditedData({ ...editedData, gender: e.target.value })}
+              className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            >
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+              <option value="Prefer not to say">Prefer not to say</option>
+            </select>
+          ) : (
+            <input
+              type={type}
+              value={value}
+              onChange={(e) => {
+                if (name.includes('.')) {
+                  const [parent, child] = name.split('.');
+                  setEditedData({
+                    ...editedData,
+                    [parent]: { ...editedData[parent], [child]: e.target.value }
+                  });
+                } else {
+                  setEditedData({ ...editedData, [name]: e.target.value });
+                }
+              }}
+              className="w-full mt-1 px-3 py-2 border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            />
+          )
         ) : (
           <p className="text-gray-900 font-medium">{value}</p>
         )}
@@ -146,6 +159,7 @@ const MyProfile = () => {
                   label="Gender" 
                   value={editedData.gender}
                   name="gender"
+                  isGender={true}
                 />
                 <InfoField 
                   icon={Calendar} 

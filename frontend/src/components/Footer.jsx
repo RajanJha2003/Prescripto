@@ -53,6 +53,8 @@ const Footer = () => {
             Copyright © 2025 Prescripto - All Rights Reserved
           </p>
         </div>
+
+        
       </div>
     </footer>
   );

@@ -71,7 +71,7 @@ const addDoctor = async (req, res) => {
       about,
       fees,
       address: JSON.parse(address),
-      imageUrl,
+      image:imageUrl,
       date: Date.now(),
     };
 

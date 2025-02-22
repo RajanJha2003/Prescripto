@@ -4,6 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import { AdminContext } from './context/AdminContext';
 import Navbar from './components/Navbar';
+import Sidebar from './components/Sidebar';
 
 
 const App = () => {
@@ -12,6 +13,9 @@ const App = () => {
     <div className='bg-[#F8F9FD]'>
         <ToastContainer />
         <Navbar />
+        <div className='flex items-start'>
+          <Sidebar />
+        </div>
         
       
     </div>

@@ -2,7 +2,11 @@ import React from 'react'
 
 const AddDoctor = () => {
   return (
-    <div>AddDoctor</div>
+    <form action="">
+        <p>
+            
+        </p>
+    </form>
   )
 }
 

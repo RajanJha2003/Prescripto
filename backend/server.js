@@ -22,7 +22,7 @@ app.use(cors());
 
 // routes 
 
-app.use("/api/v1/admin",adminRouter);
+app.use("/api/admin",adminRouter);
 
 
 // api endpoint

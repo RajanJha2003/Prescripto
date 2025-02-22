@@ -31,5 +31,5 @@ const authAdmin=async(req,res,next)=>{
 }
 
 
-e
+
 export default authAdmin;

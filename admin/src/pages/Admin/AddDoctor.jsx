@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { assets } from "../../assets/assets_admin/assets";
 
 const AddDoctor = () => {
+    const [docImg,setDocImg]=useState(false);
+    const [name,setName]=useState('');
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
       <h1 className="text-2xl font-semibold text-gray-800 mb-6">Add New Doctor</h1>
